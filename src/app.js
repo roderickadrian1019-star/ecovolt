@@ -1,9 +1,15 @@
 require('dotenv').config();
-const express = require('express');
-const sequelize = require('../Config/database');
+const sequelize = require('./Config/database');
+const Usuario = require('./Models/Usuario');
+const Estacion = require('./Models/Estacion');
+const Conector = require('./Models/Conector');
+const Reserva = require('./Models/Reserva');
 
-const Usuario = require('./models/Usuario');
-const Estacion = require('./models/Estacion');
+Estacion.hasMany(Conector);
+Conector.belongsTo(Estacion);
+
+Usuario.belongsToMany(Conector, { through: Reserva });
+Conector.belongsToMany(Usuario, { through: Reserva })
 
 const { start } = require('node:repl');
 
